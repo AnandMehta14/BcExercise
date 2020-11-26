@@ -1,0 +1,20 @@
+#proj1 Devployment file
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proj1-deploy-file
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: web-app
+  template:
+    metadata:
+      labels:
+        app: web-app
+    spec:
+      containers:
+      - name: web-app
+        image: gcr.io/arctic-dynamo-291018/javaproj:1
+        ports:
+        - containerPort: 80

@@ -1,0 +1,15 @@
+#project Service file
+apiVersion: v1
+kind: Service
+metadata:
+  name: cloudjava-service-file
+  labels:
+    app: cjava-app
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+    nodePort: 30005
+    targetPort: 8080
+  selector:
+    app: cjava-app

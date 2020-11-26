@@ -1,0 +1,11 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: app-ingress-file
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: lbip1
+    networking.gke.io/managed-certificates: managed-cert-file
+spec:
+  backend:
+    serviceName: httpd-service-file
+    servicePort: 80

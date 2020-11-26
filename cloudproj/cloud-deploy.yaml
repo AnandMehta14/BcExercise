@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cloudjava-deploy-file
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cjava-app
+  template:
+    metadata:
+      labels:
+        app: cjava-app
+    spec:
+      containers:
+      - name: cjava-app
+        image: gcr.io/arctic-dynamo-291018/javaproj:1
+        ports: 
+        - containerPort: 8080
+        env:
+        - name: DB_USER
+          valueFrom:
+            secretKeyRef:
+              name: cloudsql-db-credentials
+              key: username
+        - name: DB_PASS
+          valueFrom:
+            secretKeyRef:
+              name: cloudsql-db-credentials
+              key: password
+      - name: cloud-sql-proxy
+        image: gcr.io/cloudsql-docker/gce-proxy:1.17
+        command:
+          - "/cloud_sql_proxy"
+          - "-instances=arctic-dynamo-291018:us-central1:cloudtest1=tcp:3306"
+          - "-credential_file=/secrets/service_account.json"
+        securityContext:
+          runAsNonRoot: true
+        volumeMounts:
+        - name: secret-volume
+          mountPath: /secrets/
+          readOnly: true
+      volumes:
+      - name: secret-volume
+        secret:
+          secretName: cloudsql-instance-credentials
+      

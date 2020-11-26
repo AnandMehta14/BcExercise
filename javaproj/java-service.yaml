@@ -1,0 +1,15 @@
+#project Service file
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-service-file
+  labels:
+    app: java-app
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    nodePort: 30005
+    targetPort: 8080
+  selector:
+    app: java-app

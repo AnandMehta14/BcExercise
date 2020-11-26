@@ -1,0 +1,16 @@
+#project Service file
+apiVersion: v1
+kind: Service
+metadata:
+  name: proj1-service-file
+  labels:
+    app: web-app
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    nodePort: 30006
+    targetPort: 80
+    protocol: TCP
+  selector:
+    app: web-app
